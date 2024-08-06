@@ -40,8 +40,8 @@ class TestFileStorageDocs(unittest.TestCase):
     def test_pep8_conformance_test_file_storage(self):
         """Test tests/test_models/test_file_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_engine/\
-test_file_storage.py'])
+        result = pep8s.check_files(
+            ['tests/test_models/test_engine/test_file_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -120,6 +120,25 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_returns_dict(self):
+        """Test that all returns a dictionaty"""
+        self.assertIs(type(models.storage.all()), dict)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_no_class(self):
+        """Test that all returns all rows when no class is passed"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_new(self):
+        """test that new adds an object to the database"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """Test that save properly saves objects to file.json"""
+
+    """My new tests for file storage"""
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
         """Test the get method"""
@@ -140,4 +159,3 @@ class TestFileStorage(unittest.TestCase):
         """self.assertEqual(self.storage.count(BaseModel), 1)"""
         self.assertEqual(self.storage.count(Amenity), 1)
         self.assertEqual(self.storage.count(City), 0)
-        pass
