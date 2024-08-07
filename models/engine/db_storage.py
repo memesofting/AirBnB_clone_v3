@@ -36,9 +36,9 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        
+
         HBNB_MYSQL_PWD = quote_plus(HBNB_MYSQL_PWD)
-        
+
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
@@ -83,15 +83,29 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """method to retrieve one object based on the class
-        and its id"""
+        """Retrieve one object based on the class and its id
+        Args:
+            cls (type): The class type of the object to retrieve
+            id (str): The unique identifier of the object
+        Returns:
+            object or None: THe object if found, otherwise None
+                            Returns Non id the class is not valid
+        """
         if cls and id:
             return self.__session.query(cls).get(id)
         return None
 
     def count(self, cls=None):
-        """method counts the number of objects in storage
-        matching the given class"""
+        """Count the number of objects in storage
+            matching the given class.
+        Args:
+            cls (type, optional):
+            The class type to count objects of.
+            If None, counts all objects.
+        Returns:
+            int: The number of objects that match the given class,
+            or the total number of objects if cls is None.
+        """
         if cls:
             return self.__session.query(cls).count()
         else:
